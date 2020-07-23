@@ -44,10 +44,8 @@ const findTransactionWithWorker = (blockTransactions, ourAddresses) => {
 const distributeLoadAcrossWorkers = async numberOfWorkers => {
 
     // how many items should each worker should find the items (address).
-    console.time(`elapsedTime [v4]`);
     const itemPerWorker = Math.round(OURADDRESSES_COUNT / numberOfWorkers);
-    const promises = Array(numberOfWorkers)
-        .fill()
+    const promises = Array(numberOfWorkers).fill()
         .map((_, index) => {
             let blockTransactionToFind = [];
 
@@ -68,7 +66,6 @@ const distributeLoadAcrossWorkers = async numberOfWorkers => {
         });
 
     const results = await Promise.all(promises);
-    console.timeEnd(`elapsedTime [v4]`);
     return results.reduce((totalFoundTx, txFoundByOneWorker) => totalFoundTx.concat(txFoundByOneWorker), []);
 };
 
@@ -76,9 +73,10 @@ const distributeLoadAcrossWorkers = async numberOfWorkers => {
 async function run() {
 
     // sort with multiple workers, based on the cpu count
-    // console.time(`elapsedTime [v4]`);
-    const result3 = await distributeLoadAcrossWorkers(cpuCount);
-    // console.timeEnd(`elapsedTime [v4]`);
+    console.time(`elapsedTime [v4]`);
+    const result = await distributeLoadAcrossWorkers(cpuCount);
+    console.log (result);
+    console.timeEnd(`elapsedTime [v4]`);
 }
 
 run();
